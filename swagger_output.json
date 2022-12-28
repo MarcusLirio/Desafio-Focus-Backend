@@ -1,0 +1,346 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "1.0.0",
+    "title": "Desafio Focus",
+    "description": "Api para desafio da Focus"
+  },
+  "host": "localhost:3001",
+  "basePath": "/api",
+  "schemes": [
+    "http"
+  ],
+  "securityDefinitions": {
+    "apiKeyAuth": {
+      "type": "Bearer Token",
+      "in": "header",
+      "name": "Authorization",
+      "description": "Bearer token para os requests"
+    }
+  },
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/authenticate": {
+      "post": {
+        "tags": [
+          "Authentication"
+        ],
+        "description": "Endpoint para realizar a autenticação do usuário",
+        "parameters": [
+          {
+            "name": "data",
+            "in": "body",
+            "description": "Informações do usuário.",
+            "schema": {
+              "$ref": "#/definitions/Auth"
+            }
+          }
+        ],
+        "responses": {}
+      }
+    },
+    "/user": {
+      "get": {
+        "tags": [
+          "User"
+        ],
+        "description": "Endpoint para listar os dados do usuário.",
+        "parameters": [
+          {
+            "name": "token",
+            "in": "header",
+            "description": "Bearer token de autenticação do usuário.",
+            "type": "string",
+            "required": true
+          }
+        ],
+        "responses": {}
+      },
+      "delete": {
+        "tags": [
+          "User"
+        ],
+        "description": "Endpoint para deletar todos os dados do usuário, incluindo os dados da empresa, no sistema.",
+        "parameters": [],
+        "responses": {}
+      }
+    },
+    "/user/userid/{id}": {
+      "get": {
+        "tags": [
+          "User"
+        ],
+        "description": "Endpoint para listar os dados do usuário pelo id.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "ID do usuário"
+          }
+        ],
+        "responses": {}
+      }
+    },
+    "/user/checkemail/{email}": {
+      "get": {
+        "tags": [
+          "User"
+        ],
+        "description": "Endpoint para verificar se o e-mail já está cadastrado.",
+        "parameters": [
+          {
+            "name": "email",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "E-mail do usuário"
+          }
+        ],
+        "responses": {}
+      }
+    },
+    "/user/create": {
+      "post": {
+        "tags": [
+          "User"
+        ],
+        "description": "Endpoint para cadastrar novo usuário.",
+        "parameters": [
+          {
+            "name": "data",
+            "in": "body",
+            "description": "Dados do novo usuário",
+            "schema": {
+              "$ref": "#/definitions/UserCreate"
+            }
+          }
+        ],
+        "responses": {}
+      }
+    },
+    "/user/{id}/update": {
+      "put": {
+        "tags": [
+          "User"
+        ],
+        "description": "Endpoint para atualizar os dados do usuário.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "ID do usuário"
+          },
+          {
+            "name": "image",
+            "in": "body",
+            "description": "Dados do usuário",
+            "schema": {
+              "type": "object",
+              "properties": {}
+            }
+          }
+        ],
+        "responses": {}
+      }
+    },
+    "/user/{id}/updatepassword": {
+      "patch": {
+        "tags": [
+          "User"
+        ],
+        "description": "Endpoint para atualizar a senha do usuário.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "ID do usuário"
+          },
+          {
+            "name": "data",
+            "in": "body",
+            "description": "Dados da nova usuário",
+            "schema": {
+              "$ref": "#/definitions/UserPasswordUpdate"
+            }
+          }
+        ],
+        "responses": {}
+      }
+    },
+    "/user/updatepassword": {
+      "patch": {
+        "tags": [
+          "User"
+        ],
+        "description": "Endpoint para atualizar a senha do usuário pelo id.",
+        "parameters": [
+          {
+            "name": "data",
+            "in": "body",
+            "description": "Dados da nova usuário",
+            "schema": {
+              "$ref": "#/definitions/UserPasswordUpdate"
+            }
+          }
+        ],
+        "responses": {}
+      }
+    },
+    "/user/lostpassword": {
+      "patch": {
+        "tags": [
+          "User"
+        ],
+        "description": "Endpoint para atualizar a senha do usuário que enviou o request.",
+        "parameters": [
+          {
+            "name": "data",
+            "in": "body",
+            "description": "Dados da nova usuário",
+            "schema": {
+              "$ref": "#/definitions/UserPasswordUpdate"
+            }
+          }
+        ],
+        "responses": {}
+      }
+    },
+    "/user/delete": {
+      "patch": {
+        "tags": [
+          "User"
+        ],
+        "description": "Endpoint para inativar o cadastro do usuário pelo seu id.",
+        "parameters": [
+          {
+            "name": "id",
+            "description": "ID do usuário",
+            "type": "object",
+            "schema": {
+              "$ref": "#/definitions/UserActiveStatusUpdate"
+            },
+            "in": "query"
+          }
+        ],
+        "responses": {}
+      }
+    }
+  },
+  "definitions": {
+    "Auth": {
+      "type": "object",
+      "properties": {
+        "email": {
+          "type": "string",
+          "example": "email@domain.com"
+        },
+        "password": {
+          "type": "string",
+          "example": "123456"
+        },
+        "transactionCode": {
+          "type": "string",
+          "example": "1bdb764d-3aa4-4ef4-ab71-93b3219f5882"
+        }
+      },
+      "required": [
+        "email",
+        "password",
+        "transactionCode"
+      ]
+    },
+    "ServiceUpdate": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "example": "Serviço de limpeza"
+        },
+        "description": {
+          "type": "string",
+          "example": "Serviço de limpeza para vidro direito."
+        }
+      }
+    },
+    "UserActiveStatusUpdate": {
+      "type": "object",
+      "properties": {
+        "isActive": {
+          "type": "number",
+          "example": 1
+        }
+      },
+      "required": [
+        "isActive"
+      ]
+    },
+    "UserCreate": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "example": "John Due"
+        },
+        "email": {
+          "type": "string",
+          "example": "john.due@email.com"
+        },
+        "password": {
+          "type": "string",
+          "example": "123456"
+        },
+        "cel": {
+          "type": "string",
+          "example": "11"
+        },
+        "celDDD": {
+          "type": "string",
+          "example": "999999999"
+        },
+        "tel": {
+          "type": "string",
+          "example": "11"
+        },
+        "telDDD": {
+          "type": "string",
+          "example": "99999999"
+        },
+        "userType": {
+          "type": "string",
+          "example": "seller"
+        }
+      },
+      "required": [
+        "name",
+        "email",
+        "password",
+        "tel",
+        "telDDD",
+        "userType"
+      ]
+    },
+    "UserPasswordUpdate": {
+      "type": "object",
+      "properties": {
+        "password": {
+          "type": "string",
+          "example": "John Due"
+        }
+      },
+      "required": [
+        "password"
+      ]
+    }
+  }
+}
